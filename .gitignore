@@ -2,6 +2,8 @@
 node_modules
 /dist
 firebase-config.js
+storage.rules
+firestore.rules
 
 # local env files
 .env.local

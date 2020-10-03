@@ -1,54 +1,40 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view :dataRef='dataRef' />
-  </div>
-</template>
-
 <script>
-import firebase from 'firebase'
+import Dashboard from '@/components/Dashboard.vue';
 
 export default {
   name: 'App',
+  components: {
+    Dashboard
+  },
   data() {
     return {
       dataRef: {}
     }
   },
-  created() {
-
-  },
-  mounted() {
-    this.fetchData();
-  },
-  methods: {
-    fetchData() {
-      var self = this;
-
-      var fireRef = firebase.firestore().collection('test-data');
-
-      fireRef.get().then((docs) => {
-        docs.forEach((doc) => {
-          console.log(doc.data());
-          self.dataRef = doc.data();
-        });
-      });
-
-    }
-  }
 }
 </script>
 
+<template>
+  <div id="app">
+    <Dashboard />
+  </div>
+</template>
+
 <style lang="scss">
+$colorDark: #212225;
+
+body {
+  margin: 0px;
+  padding: 0px;  
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Nunito, Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: white;
+  margin: 0px;
+  background: $colorDark;
 }
 
 #nav {
@@ -57,7 +43,7 @@ export default {
   a {
     font-weight: bold;
     color: #2c3e50;
-
+z
     &.router-link-exact-active {
       color: #42b983;
     }
