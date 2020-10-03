@@ -724,10 +724,11 @@ export default {
 <template>
   <div class="dash-container">
       <div class="navbar" v-bind:class="[ homeActive ? 'nav-solid' : 'nav-trans' ]">
-          <div @click="toggleHome()" class="nav-logo">
-              <div class="logo">
-                  
-              </div>
+          <div class="nav-left">
+                <div class="menu-btn"></div>
+                <div @click="toggleHome()" class="nav-logo">
+                    <div class="logo"></div>
+                </div>
           </div>
           <div class="nav-center">
               <ul>
@@ -973,7 +974,7 @@ export default {
                           <br>
                           <!--credits-->
                           <div class="credits-container">
-                              <p class="credit" style="display: inline-flex" v-for="(c, index) in i.credits" :key="index"><span>{{c.role}}</span>&nbsp;<strong>{{c.name}}</strong>&nbsp;</p>
+                              <p class="credit" style="display: inline-flex" v-for="(c, index) in i.credits" :key="index"><span>{{c.role + " "}}</span>&nbsp;<strong>{{c.name + " "}}</strong>&nbsp;</p>
                           </div>
                       </li>
                   </ul>
@@ -1037,6 +1038,13 @@ body {
     }
 }
 
+.menu-btn {
+    background:blue;
+    margin-left: 24px;
+    width: 30px;
+    height: 30px;
+}
+
 .auth {
     position: fixed;
     background: gray;
@@ -1085,7 +1093,6 @@ body {
 
 .navbar {
     position:fixed;
-    //background: black;
     z-index: 999;
     display: flex;
     align-items: center;
@@ -1158,14 +1165,18 @@ body {
     }
 }
 
+.nav-left {
+    display: flex;
+}
+
 .logo {
     background-position: center;
     background-size: contain;
     height: 30px;
-    width: 75px;
+    width: 30px;
     background-image: url('../assets/logo.svg');
     background-repeat: no-repeat;
-    margin: 12px;
+    margin-left: 18px;
 }
 
 .nav-logo {
@@ -1929,7 +1940,7 @@ $iconDims: 24px;
 
 .screengrab-delete-veil {
     opacity: 0;
-    transition: 100ms;
+    //transition: 100ms;
     background: 100%;
     height: 90px;
     width: 160px;
@@ -1945,7 +1956,7 @@ $iconDims: 24px;
     position: absolute;
 
     span {
-        transition: 150ms;
+        //transition: 150ms;
         opacity: 1 !important;
         //transform: translateY(-64px);
     }
