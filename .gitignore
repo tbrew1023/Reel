@@ -6,6 +6,7 @@ firebase-config.js
 storage.rules
 firestore.rules
 database.rules.json
+firebase-debug.log
 
 # local env files
 .env.local

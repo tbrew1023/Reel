@@ -64,7 +64,8 @@ export default {
           ],
           timestamp: "",
           startTime: 0
-        }
+        },
+        menuOpen: false
       }
     },
     beforeCreate() {
@@ -102,8 +103,8 @@ export default {
             console.log("reel location: ", this.filmReel);
           });
         },
-        setItems() {
-            firebase.firestore().collection('portfolioItems').get().then((collection) => {
+        async setItems() {
+            await firebase.firestore().collection('portfolioItems').get().then((collection) => {
                 //console.log(collection.docs);
                 for(let i = 0; i < collection.docs.length; i++) {
                     //console.log(collection.docs[i].data().title);
@@ -716,33 +717,44 @@ export default {
             console.log(this.stagedItems[index].screenGrabs);
 
             this.focus = index;
+        },
+        toggleMenu() {
+            console.log('opening menu');
+            this.menuOpen = ( this.menuOpen ? false : true );
+            console.log('Is the menu open?: ', this.menuOpen);
         }
     }
 }
 </script>
 
 <template>
+<div class="dash">
+    <div class="navbar" v-bind:class="[ homeActive ? 'nav-solid' : 'nav-trans' ]">
+        <div class="nav-left">
+            <div class="menu-btn-container">
+                <div @click="toggleMenu()" class="menu-btn"></div>
+            </div>
+            <div class="nav-logo">
+                <div class="logo"></div>
+            </div>
+        </div>
+        <div class="nav-center">
+            <ul>
+                <li @click="toggleHome()" class="nav-item" v-bind:class="[ homeActive ? 'nav-active' : 'nav-inactive' ]"><div class="nav-icon" id="nav-icon-home"></div><span>Dashboard</span></li>
+                <li @click="toggleFilm()" class="nav-item" v-bind:class="[ filmWindowActive || reelWindowActive ? 'nav-active' : 'nav-inactive' ]"><div class="nav-icon" id="nav-icon-film"></div><span>Add Film</span></li>
+                <li @click="togglePhoto()" class="nav-item" v-bind:class="[ photoWindowActive ? 'nav-active' : 'nav-inactive' ]"><div class="nav-icon" id="nav-icon-photo"></div><span>Add Photos</span></li>
+            </ul>
+        </div>
+        <div class="nav-text">
+            <ul>
+                <li @click="toggleSettings()" class="nav-item" id="nav-item-settings" v-bind:class="[ settingsWindowActive ? 'nav-active' : 'nav-inactive' ]"><div class="nav-icon" id="nav-icon-settings"></div>Profile</li>
+                <a class="live-site-button" href="https://tbrew1023.github.io/Nihal-Public" target="_blank"><li><span>View Live Site</span></li></a>
+            </ul>
+        </div>
+    </div>
   <div class="dash-container">
-      <div class="navbar" v-bind:class="[ homeActive ? 'nav-solid' : 'nav-trans' ]">
-          <div class="nav-left">
-                <div class="menu-btn"></div>
-                <div @click="toggleHome()" class="nav-logo">
-                    <div class="logo"></div>
-                </div>
-          </div>
-          <div class="nav-center">
-              <ul>
-                  <li @click="toggleHome()" class="nav-item" v-bind:class="[ homeActive ? 'nav-active' : 'nav-inactive' ]"><div class="nav-icon" id="nav-icon-home"></div><span>Dashboard</span></li>
-                  <li @click="toggleFilm()" class="nav-item" v-bind:class="[ filmWindowActive || reelWindowActive ? 'nav-active' : 'nav-inactive' ]"><div class="nav-icon" id="nav-icon-film"></div><span>Add Film</span></li>
-                  <li @click="togglePhoto()" class="nav-item" v-bind:class="[ photoWindowActive ? 'nav-active' : 'nav-inactive' ]"><div class="nav-icon" id="nav-icon-photo"></div><span>Add Photos</span></li>
-              </ul>
-          </div>
-          <div class="nav-text">
-              <ul>
-                  <li @click="toggleSettings()" class="nav-item" id="nav-item-settings" v-bind:class="[ settingsWindowActive ? 'nav-active' : 'nav-inactive' ]"><div class="nav-icon" id="nav-icon-settings"></div>Profile</li>
-                  <a class="live-site-button" href="https://tbrew1023.github.io/Nihal-Public" target="_blank"><li><span>View Live Site</span></li></a>
-              </ul>
-          </div>
+      <div id="menu-panel-container">
+        <!--div class="menu-panel"></div-->
       </div>
 
       <div id="film-window" v-bind:class="[ filmWindowActive ? 'window-section-active' : 'window-section-inactive' ]">
@@ -999,8 +1011,8 @@ export default {
               </div>
           </div>
       </div>
-  
   </div>
+</div>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -1036,13 +1048,6 @@ body {
         font-size: 14px;
 
     }
-}
-
-.menu-btn {
-    background:blue;
-    margin-left: 24px;
-    width: 30px;
-    height: 30px;
 }
 
 .auth {
@@ -1091,6 +1096,11 @@ body {
     box-shadow: none !important;
 }
 
+.nav-menu-open {
+    z-index: 99999;
+    background: rgba(0,0,0,0);
+}
+
 .navbar {
     position:fixed;
     z-index: 999;
@@ -1120,8 +1130,6 @@ body {
         font-size: 14px;
         font-weight: bold;
     }
-
-
 }
 
 .settings-button-container {
@@ -1169,6 +1177,56 @@ body {
     display: flex;
 }
 
+.menu-panel-container {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    margin: 0px;
+    padding: 0px;
+}
+
+.menu-panel {
+    position: fixed;
+    background:blue;
+    width: 500px;
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    align-self: flex-start;
+    top: 0px;
+    z-index: 9999;
+}
+
+.menu-open {
+
+}
+
+.menu-closed {
+
+}
+
+.menu-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-btn {
+    margin-left: 24px;
+    width: 22px;
+    height: 22px;
+    background-image: url('../assets/menu.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: 200ms;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.3;
+    }
+}
+
 .logo {
     background-position: center;
     background-size: contain;
@@ -1176,13 +1234,12 @@ body {
     width: 30px;
     background-image: url('../assets/logo.svg');
     background-repeat: no-repeat;
-    margin-left: 18px;
+    margin-left: 12px;
 }
 
 .nav-logo {
-    position: absolute;
     left: 0px;
-    margin-left: 24px;
+    margin-left: 12px;
     cursor: pointer;
 
     span {
@@ -1269,7 +1326,13 @@ body {
 }
 
 .dash-container {
+    position: absolute;
+    top: 60px;
+    background: #212225;
     width: 100%;
+    height: calc(100vh - 60px);
+    overflow: auto;
+    //padding-top: 60px;
     
     ul {
         list-style: none;
@@ -1279,7 +1342,7 @@ body {
 
 .content {
     display: inline-flex;
-    margin-top: 60px;
+    //margin-top: 60px;
     width: 100%;
 }
 
