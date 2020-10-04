@@ -102,8 +102,8 @@ export default {
             console.log("reel location: ", this.filmReel);
           });
         },
-        setItems() {
-            firebase.firestore().collection('portfolioItems').get().then((collection) => {
+        async setItems() {
+            await firebase.firestore().collection('portfolioItems').get().then((collection) => {
                 //console.log(collection.docs);
                 for(let i = 0; i < collection.docs.length; i++) {
                     //console.log(collection.docs[i].data().title);
@@ -716,6 +716,9 @@ export default {
             console.log(this.stagedItems[index].screenGrabs);
 
             this.focus = index;
+        },
+        toggleMenu() {
+            console.log('toggling menu');
         }
     }
 }
@@ -725,7 +728,9 @@ export default {
   <div class="dash-container">
       <div class="navbar" v-bind:class="[ homeActive ? 'nav-solid' : 'nav-trans' ]">
           <div class="nav-left">
-                <div class="menu-btn"></div>
+                <div class="menu-btn-container">
+                    <div @click="toggleMenu()" class="menu-btn"></div>
+                </div>
                 <div @click="toggleHome()" class="nav-logo">
                     <div class="logo"></div>
                 </div>
@@ -1038,11 +1043,31 @@ body {
     }
 }
 
+.menu-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-align: center;
+    padding: 8px;
+}
+
 .menu-btn {
-    background:blue;
+    //background:blue;
     margin-left: 24px;
-    width: 30px;
-    height: 30px;
+    width: 22px;
+    height: 22px;
+    background-image: url("../assets/menu.svg");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    //border-radius: 100%;
+    transition: 200ms;
+
+    &:hover {
+        opacity: 0.4;
+    }
 }
 
 .auth {
@@ -1180,9 +1205,12 @@ body {
 }
 
 .nav-logo {
-    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //position: absolute;
     left: 0px;
-    margin-left: 24px;
+    //margin-left: 24px;
     cursor: pointer;
 
     span {
