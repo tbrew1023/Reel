@@ -635,6 +635,7 @@ export default {
             this.settingsWindowActive = false;
             this.reelWindowActive = false;
             this.screengrabWindowActive = false;
+            this.menuOpen = false;
             this.homeActive = true;
             this.photoCount = 1;
             this.uploadDone = false;
@@ -656,6 +657,7 @@ export default {
             this.photoWindowActive = false;
             this.reelWindowActive = false;
             this.screengrabWindowActive = false;
+            this.menuOpen = false;
         },
         toggleReel() {
             //alert('Film section');
@@ -671,6 +673,7 @@ export default {
             this.photoWindowActive = false;
             this.filmWindowActive = false;
             this.screengrabWindowActive = false;
+            this.menuOpen = false;
         },
         togglePhoto() {
             //alert('Photo section');
@@ -685,6 +688,7 @@ export default {
             this.filmWindowActive = false;
             this.reelWindowActive = false;
             this.screengrabWindowActive = false;
+            this.menuOpen = false;
         },
         toggleSettings() {
             //alert('Settings section');
@@ -699,6 +703,7 @@ export default {
             this.filmWindowActive = false;
             this.reelWindowActive = false;
             this.screengrabWindowActive = false;
+            this.menuOpen = false;
         },
         toggleScreengrab(index) {
             //alert('Settings section');
@@ -720,7 +725,21 @@ export default {
         },
         toggleMenu() {
             console.log('opening menu');
-            this.menuOpen = ( this.menuOpen ? false : true );
+
+            if(this.menuOpen) {
+                this.homeActive = true;
+            }
+            else {
+                this.homeActive = false;
+            }
+
+            this.menuOpen = !this.menuOpen;
+            this.settingsWindowActive = false;
+            this.photoWindowActive = false;
+            this.filmWindowActive = false;
+            this.reelWindowActive = false;
+            this.screengrabWindowActive = false;
+
             console.log('Is the menu open?: ', this.menuOpen);
         }
     }
@@ -730,9 +749,9 @@ export default {
 <template>
 <div class="dash">
     <div class="navbar" v-bind:class="[ homeActive ? 'nav-solid' : 'nav-trans' ]">
-        <div class="nav-left">
+        <div @click="toggleMenu()" class="nav-left">
             <div class="menu-btn-container">
-                <div @click="toggleMenu()" class="menu-btn"></div>
+                <div class="menu-btn" :class="( menuOpen ? 'back-icon' : 'menu-icon' )"></div>
             </div>
             <div class="nav-logo">
                 <div class="logo"></div>
@@ -753,8 +772,9 @@ export default {
         </div>
     </div>
   <div class="dash-container">
-      <div id="menu-panel-container">
-        <!--div class="menu-panel"></div-->
+
+      <div v-bind:class="[ menuOpen ? 'window-section-active' : 'window-section-inactive' ]" id="menu-panel-container">
+        <div class="menu-panel" :class="( menuOpen ? 'menu-open' : 'menu-closed' )"></div>
       </div>
 
       <div id="film-window" v-bind:class="[ filmWindowActive ? 'window-section-active' : 'window-section-inactive' ]">
@@ -912,7 +932,7 @@ export default {
           </div>
       </div>
 
-      <div class="content" v-bind:class="[ filmWindowActive || settingsWindowActive || photoWindowActive || reelWindowActive || screengrabWindowActive ? 'content-blur-active' : 'content-blur-inactive' ]">
+      <div class="content" v-bind:class="[ filmWindowActive || settingsWindowActive || photoWindowActive || reelWindowActive || screengrabWindowActive || menuOpen ? 'content-blur-active' : 'content-blur-inactive' ]">
           <div class="section-films">
                   <h2>Films</h2>
                   <ul class="list-group reel-container">
@@ -1096,11 +1116,6 @@ body {
     box-shadow: none !important;
 }
 
-.nav-menu-open {
-    z-index: 99999;
-    background: rgba(0,0,0,0);
-}
-
 .navbar {
     position:fixed;
     z-index: 999;
@@ -1175,27 +1190,60 @@ body {
 
 .nav-left {
     display: flex;
+    cursor: pointer;
+
+    &:hover {
+        .menu-btn {
+            opacity: 0.6 !important;
+        }
+    }
+    
+    &:hover {
+        .back-icon {
+            transform: translateX(-3px);
+        }     
+    }
 }
 
 .menu-panel-container {
-    position: absolute;
+    position: fixed;
     height: 100vh;
     width: 100vw;
     margin: 0px;
     padding: 0px;
+    top: 0px;
+    border-radius: 0px !important;
 }
 
 .menu-panel {
     position: fixed;
-    background:blue;
+    background: #2a2b2e;
     width: 500px;
     height: 100vh;
     margin: 0px;
     padding: 0px;
     align-self: flex-start;
     top: 0px;
-    z-index: 9999;
+    z-index: 9;
+    border-radius: 0px !important;
+    box-shadow: 0px 0px 36px 0px rgba(0,0,0,.3)
 }
+
+.menu-open {
+    position: absolute;
+    left: 0px;
+    //background: blue;
+    transition: 300ms;
+    opacity: 1 !important;
+}
+
+.menu-closed {
+    position: absolute;
+    left: -500px;
+    //background: red;
+    transition: 300ms;
+    opacity: 1 !important;
+}   
 
 .menu-open {
 
@@ -1211,20 +1259,28 @@ body {
     justify-content: center;
 }
 
+.menu-icon {
+    background-image: url('../assets/menu.svg');
+    transition: 200ms;
+}
+
+.back-icon {
+    background-image: url('../assets/back.svg');
+    filter: invert(1);
+    background-size: 130% !important;
+    opacity: 1 !important;
+    transition: 200ms;
+}
+
 .menu-btn {
     margin-left: 24px;
     width: 22px;
     height: 22px;
-    background-image: url('../assets/menu.svg');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     transition: 200ms;
     cursor: pointer;
-
-    &:hover {
-        opacity: 0.3;
-    }
 }
 
 .logo {
@@ -1234,7 +1290,7 @@ body {
     width: 30px;
     background-image: url('../assets/logo.svg');
     background-repeat: no-repeat;
-    margin-left: 12px;
+    margin-left: 16px;
 }
 
 .nav-logo {
@@ -1545,7 +1601,7 @@ $imageDims: 100px;
 
 .content-blur-active {
     transition: 200ms;
-    filter: blur(24px) brightness(0.7);
+    filter: blur(24px) brightness(0.3);
 }
 
 .content-blur-inactive {
