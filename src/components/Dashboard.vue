@@ -1239,7 +1239,7 @@ body {
 
 .nav-logo {
     left: 0px;
-    margin-left: 12px;
+    //margin-left: 12px;
     cursor: pointer;
 
     span {
@@ -1327,12 +1327,12 @@ body {
 
 .dash-container {
     position: absolute;
-    top: 60px;
+    //top: 60px;
     background: #212225;
     width: 100%;
     height: calc(100vh - 60px);
     overflow: auto;
-    //padding-top: 60px;
+    padding-top: 60px;
     
     ul {
         list-style: none;

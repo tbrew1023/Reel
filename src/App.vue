@@ -26,6 +26,7 @@ $colorDark: #212225;
 body {
   margin: 0px;
   padding: 0px;  
+  background: #212225;
 }
 
 
@@ -37,6 +38,7 @@ body {
 ::-webkit-scrollbar-track {
     background: #212225 !important;
     border: none !important;
+    margin-top: 60px;
 }
 
 ::-webkit-scrollbar-thumb {
