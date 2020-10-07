@@ -21,6 +21,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
+
 $colorDark: #212225;
 
 body {
@@ -59,7 +61,7 @@ body {
 }
 
 #app {
-  font-family: Nunito, Roboto, sans-serif;
+  font-family: 'Nunito Sans', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;

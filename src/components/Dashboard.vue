@@ -65,7 +65,10 @@ export default {
           timestamp: "",
           startTime: 0
         },
-        menuOpen: false
+        menuOpen: false,
+        currentProject: 'Nihal.tv',
+        dashActive: true,
+        projectExpand: false
       }
     },
     beforeCreate() {
@@ -755,6 +758,7 @@ export default {
             </div>
             <div class="nav-logo">
                 <div class="logo"></div>
+                <h3 class="current-project">{{ currentProject }}</h3>
             </div>
         </div>
         <div class="nav-center">
@@ -774,7 +778,17 @@ export default {
   <div class="dash-container">
 
       <div v-bind:class="[ menuOpen ? 'window-section-active' : 'window-section-inactive' ]" id="menu-panel-container">
-        <div class="menu-panel" :class="( menuOpen ? 'menu-open' : 'menu-closed' )"></div>
+        <div class="menu-panel" :class="( menuOpen ? 'menu-open' : 'menu-closed' )">
+            <div class="menu-top"></div>
+            <div class="menu-bottom">
+                <ul class="menu-items">
+                    <li :class="( dashActive ? 'active-item' : 'inactive-item' )" class="menu-item"><div class="menu-item-icon editor-icon"></div>Editor</li>
+                    <li @click="() => { projectExpand = !projectExpand }" :class="( projectExpand ? 'projects-expanded' : 'projects-collapsed' )" class="menu-item"><div class="menu-item-icon my-projects-icon"></div>My Projects<div class="dropdown-icon"></div></li>
+                    <li class="menu-item"><div class="menu-item-icon showcase-icon"></div>Showcase</li>
+                </ul>
+                <div class="logout-button">Logout</div>
+            </div>
+        </div>
       </div>
 
       <div id="film-window" v-bind:class="[ filmWindowActive ? 'window-section-active' : 'window-section-inactive' ]">
@@ -1006,7 +1020,7 @@ export default {
                           <br>
                           <!--credits-->
                           <div class="credits-container">
-                              <p class="credit" style="display: inline-flex" v-for="(c, index) in i.credits" :key="index"><span>{{c.role + " "}}</span>&nbsp;<strong>{{c.name + " "}}</strong>&nbsp;</p>
+                              <p class="credit" style="display: inline-flex" v-for="(c, index) in i.credits" :key="index"><span>{{c.role + " "}}</span>&nbsp; <strong>{{c.name + " "}}</strong>&nbsp; </p>
                           </div>
                       </li>
                   </ul>
@@ -1205,6 +1219,103 @@ body {
     }
 }
 
+.logout-button {
+    //color: $colorLink;
+    //border: 2px solid $colorLink;
+    //border-radius: 2px;
+    padding: 4px 6px 4px 6px;
+    text-align: center;
+    width: 78%;
+    transition: 200ms;
+    cursor: pointer;
+    background: $colorLink;
+    color: white;
+    padding: 16px 0px;
+    margin-bottom: 55px;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 6px;
+
+    &:hover {
+        opacity: 0.3;    
+    }
+}
+
+.projects-expanded {
+    height: 300px !important;
+    transition: 200ms;
+}
+
+.dropdown-icon {
+    width: 22px;
+    height: 22px;
+    background-image: url('../assets/dropdown.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    filter: invert(1);
+    margin-left: auto;
+}
+
+.menu-bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100vh - 48px);
+}
+
+.editor-icon {
+    background-image: url('../assets/editor.svg');
+    filter: invert(1);
+}
+
+.my-projects-icon {
+    background-image: url('../assets/templates.svg');
+    filter: invert(1);
+}
+
+.showcase-icon {
+    background-image: url('../assets/showcase.svg');
+    filter: invert(1);
+}
+
+.menu-item-icon {
+    //background: white;
+    width: 30px;
+    height: 30px;
+    margin-right: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.active-item {
+    background: rgba(255,255,255,0.1) !important;
+}
+
+.menu-item {
+    margin-top: 12px;
+    display: flex;
+    margin-top: 24px;
+    padding: 12px 24px 12px 24px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 200ms;
+    margin-right: 60px;
+    background: rgba(255,255,255,0.02);
+
+    &:hover {
+        background: rgba(255,255,255,0.05);
+    }
+}
+
+.menu-items {
+    list-style: none;
+    color: white;
+    margin-left: 48px;
+}
+
 .menu-panel-container {
     position: fixed;
     height: 100vh;
@@ -1213,6 +1324,14 @@ body {
     padding: 0px;
     top: 0px;
     border-radius: 0px !important;
+}
+
+.menu-top {
+    width: 100%;
+    height: 60px !important;
+    background:#212225;
+    margin: 0px;
+    height: 0px;
 }
 
 .menu-panel {
@@ -1226,7 +1345,7 @@ body {
     top: 0px;
     z-index: 9;
     border-radius: 0px !important;
-    box-shadow: 0px 0px 36px 0px rgba(0,0,0,.3)
+    box-shadow: 0px 0px 36px 0px rgba(0,0,0,.3);
 }
 
 .menu-open {
@@ -1234,6 +1353,7 @@ body {
     left: 0px;
     //background: blue;
     transition: 300ms;
+    transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
     opacity: 1 !important;
 }
 
@@ -1242,6 +1362,7 @@ body {
     left: -500px;
     //background: red;
     transition: 300ms;
+    transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
     opacity: 1 !important;
 }   
 
@@ -1283,6 +1404,11 @@ body {
     cursor: pointer;
 }
 
+.current-project {
+    font-weight: normal;
+    font-size: 18px !important;
+}
+
 .logo {
     background-position: center;
     background-size: contain;
@@ -1291,12 +1417,15 @@ body {
     background-image: url('../assets/logo.svg');
     background-repeat: no-repeat;
     margin-left: 16px;
+    margin-right: 16px;
 }
 
 .nav-logo {
     left: 0px;
     //margin-left: 12px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 
     span {
         opacity: 0.6;
