@@ -58,7 +58,7 @@ export default {
 #logo rect:nth-child(1) {
   stroke-dasharray: 10344.4667;
   stroke-dashoffset: 10344.4667;
-  animation: line-animate 4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: line-animate 6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
 #logo path:nth-child(2) {
@@ -79,7 +79,7 @@ export default {
     fill: #212225;
   } to {
     fill: white;
-    transform: translateY(-120px) scale(0.7);
+    transform: translateY(-180px) scale(0.6);
   }
 }
 
