@@ -783,7 +783,8 @@ export default {
             <div class="menu-bottom">
                 <ul class="menu-items">
                     <li :class="( dashActive ? 'active-item' : 'inactive-item' )" class="menu-item"><div class="menu-item-icon editor-icon"></div>Editor</li>
-                    <li @click="() => { projectExpand = !projectExpand }" :class="( projectExpand ? 'projects-expanded' : 'projects-collapsed' )" class="menu-item"><div class="menu-item-icon my-projects-icon"></div>My Projects<div class="dropdown-icon"></div></li>
+                    <li @click="() => { projectExpand = !projectExpand }" class="menu-item"><div class="menu-item-icon my-projects-icon"></div>My Projects<div :class="( projectExpand ? 'flip-up' : 'fip-down' )" class="dropdown-icon"></div></li>
+                    <li class="menu-item" :class="( projectExpand ? 'expanded-list' : 'collapsed-list' )"><p v-if="projectExpand">hello</p></li>
                     <li class="menu-item"><div class="menu-item-icon showcase-icon"></div>Showcase</li>
                 </ul>
                 <div class="logout-button">Logout</div>
@@ -1084,6 +1085,29 @@ body {
     }
 }
 
+.expanded-list {
+    margin-top: -4px !important;
+    height: 300px !important;
+    transition: 200ms;
+    padding: 0px;
+}
+
+.collapsed-list {
+    height: 0px !important;
+    transition: 200ms;
+    margin-top: 0px !important;
+}
+
+.flip-up {
+    transform: rotate(0deg);
+    transition: 200ms;
+}
+
+.flip-down {
+    transform: rotate(180deg);
+    transition: 200ms;
+}
+
 .auth {
     position: fixed;
     background: gray;
@@ -1244,6 +1268,7 @@ body {
 .projects-expanded {
     height: 300px !important;
     transition: 200ms;
+    align-items: flex-start;
 }
 
 .dropdown-icon {
