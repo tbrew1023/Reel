@@ -783,8 +783,8 @@ export default {
             <div class="menu-bottom">
                 <ul class="menu-items">
                     <li :class="( dashActive ? 'active-item' : 'inactive-item' )" class="menu-item"><div class="menu-item-icon editor-icon"></div>Editor</li>
-                    <li @click="() => { projectExpand = !projectExpand }" class="menu-item"><div class="menu-item-icon my-projects-icon"></div>My Projects<div :class="( projectExpand ? 'flip-up' : 'fip-down' )" class="dropdown-icon"></div></li>
-                    <li class="menu-item" :class="( projectExpand ? 'expanded-list' : 'collapsed-list' )"><p v-if="projectExpand">hello</p></li>
+                    <li :class="( projectExpand ? 'expantion' : 'compression' )" @click="() => { projectExpand = !projectExpand }" class="menu-item"><div class="menu-item-icon my-projects-icon"></div>My Projects<div :class="( projectExpand ? 'flip-up' : 'flip-down' )" class="dropdown-icon"></div></li>
+                    <li class="menu-item" :class="( projectExpand ? 'expanded-list' : 'collapsed-list' )"><p class="expand-menu-item" v-if="projectExpand">Nihal.tv</p></li>
                     <li class="menu-item"><div class="menu-item-icon showcase-icon"></div>Showcase</li>
                 </ul>
                 <div class="logout-button">Logout</div>
@@ -1062,6 +1062,16 @@ $colorWhite: #eee;
 $colorGreen: #66BB6A;
 $colorYellow: #FBC02D;
 
+.expand-menu-item {
+    padding: 6px 12px 6px 24px;
+    border-radius: 60px;
+    transition: 200ms;
+
+    &:hover {
+        background: rgba(255,255,255,0.05) !important;
+    }
+}
+
 body {
     opacity: 0;
     margin: 0px;
@@ -1085,27 +1095,56 @@ body {
     }
 }
 
+.alt-item {
+    margin-top: 12px;
+    display: flex;
+    margin-top: 24px;
+    padding: 12px 24px 12px 24px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 200ms;
+    margin-right: 60px;
+    background: rgba(255,255,255,0.02);
+}
+
+.expantion {
+    border-radius: 6px 6px 0px 0px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.compression {
+    border-radius: 6px;
+}
+
 .expanded-list {
-    margin-top: -4px !important;
-    height: 300px !important;
+    margin-top: 0px !important;
+    height: auto !important;
     transition: 200ms;
     padding: 0px;
+    display: block !important;
+    border-radius: 0px 0px 6px 6px;
+    background: rgba(255,255,255,0.02) !important;
 }
 
 .collapsed-list {
     height: 0px !important;
     transition: 200ms;
     margin-top: 0px !important;
+    padding: 0px !important;
+    display: block !important;
 }
 
 .flip-up {
-    transform: rotate(0deg);
+    transform: rotate(180deg);
     transition: 200ms;
+    //background: red;
 }
 
 .flip-down {
-    transform: rotate(180deg);
+    transform: rotate(0deg);
     transition: 200ms;
+    //background: blue;
 }
 
 .auth {
