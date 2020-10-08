@@ -1,11 +1,6 @@
 <script>
-import Dashboard from '@/components/Dashboard.vue';
-
 export default {
   name: 'App',
-  components: {
-    Dashboard
-  },
   data() {
     return {
       dataRef: {}
@@ -16,7 +11,7 @@ export default {
 
 <template>
   <div id="app">
-    <Dashboard />
+    <router-view>
   </div>
 </template>
 
@@ -24,6 +19,11 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
 
 $colorDark: #212225;
+
+a {
+  color: white;
+  text-decoration: none;
+}
 
 body {
   margin: 0px;

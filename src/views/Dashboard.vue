@@ -785,7 +785,7 @@ export default {
                     <li :class="( dashActive ? 'active-item' : 'inactive-item' )" class="menu-item"><div class="menu-item-icon editor-icon"></div>Editor</li>
                     <li :class="( projectExpand ? 'expantion' : 'compression' )" @click="() => { projectExpand = !projectExpand }" class="menu-item"><div class="menu-item-icon my-projects-icon"></div>My Projects<div :class="( projectExpand ? 'flip-up' : 'flip-down' )" class="dropdown-icon"></div></li>
                     <li class="menu-item" :class="( projectExpand ? 'expanded-list' : 'collapsed-list' )"><p class="expand-menu-item" v-if="projectExpand">Nihal.tv</p></li>
-                    <li class="menu-item"><div class="menu-item-icon showcase-icon"></div>Showcase</li>
+                    <router-link to="/showcase"><li class="menu-item"><div class="menu-item-icon showcase-icon"></div>Showcase</li></router-link>
                 </ul>
                 <div class="logout-button">Logout</div>
             </div>
@@ -1066,6 +1066,7 @@ $colorYellow: #FBC02D;
     padding: 6px 12px 6px 24px;
     border-radius: 60px;
     transition: 200ms;
+    user-select: none;
 
     &:hover {
         background: rgba(255,255,255,0.05) !important;
@@ -1110,7 +1111,7 @@ body {
 
 .expantion {
     border-radius: 6px 6px 0px 0px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid #434447;
 }
 
 .compression {
@@ -1133,6 +1134,7 @@ body {
     margin-top: 0px !important;
     padding: 0px !important;
     display: block !important;
+    pointer-events: none;
 }
 
 .flip-up {

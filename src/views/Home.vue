@@ -1,5 +1,8 @@
 <template>
-  <div class="home-container"></div>
+  <div class="home-container">
+    <h1>This is the home page</h1>
+    <router-link to="/editor">Dashboard</router-link>
+  </div>
 </template>
 
 <script>
